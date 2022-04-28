@@ -12,7 +12,7 @@
               |   |________________________________________________|   |
               |   ___  ___  ___                                        |
    Rotor Up -----|_+_||_+_||_+_|           ABCDEFGHIJKLMNOPQRSTUVWXYZ  /|_______
-              |   ___  ___  ___   ROTOR 1: EKMFLGDQVZNTOWYHXUSPAIBRCJ /   Rotor wirings: Only accepts 26 letter strings, no repeat letters.
+              |   ___  ___  ___   ROTOR 1: EKMFLGDQVZNTOWYHXUSPAIBRCJ /   Rotor wirings: Only accepts 26 letter strings.
    Rotor Rotation|_2_||_6_||_2_|  ROTOR 2: JDKSIRUXBLHWTMCQGZNPYFVOEA \  _Default configuration is wiring for Enigma M3.
               |   ___  ___  ___   ROTOR 3: OBDFHJLCPRTXVZNYEIWGAKMUSQ  \|
    Rotor Down ---|_-_||_-_||_-_|  REFLEC.: YRUHQSLDPXNGOKMIEBFZCWVJAT  |
