@@ -31,7 +31,7 @@
 	         2. Rotor wiring if modified
 	         3. Encrypted message
 
-                 Example:
+                 Example: 
 		 2 5 3
 		 YRXXBSFTKPGWDUWCLRXBVHJJQ 
 
