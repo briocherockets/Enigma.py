@@ -1,22 +1,43 @@
 '''
-ENIGMA (PORTABLE .EXE)
+ _____ _   _ _____ _____  __  __   ___                
+|  ___| \ | |_   _|  __ \|  \/  | / _ \               
+| |__ |  \| | | | | |  \/| .  . |/ /_\ \  _ __  _   _ 
+|  __|| . ` | | | | | __ | |\/| ||  _  | | '_ \| | | |
+| |___| |\  |_| |_| |_\ \| |  | || | | |_| |_) | |_| |
+\____/\_| \_/\___/ \____/\_|  |_/\_| |_(_) .__/ \__, |
+                                         | |     __/ |
+                                         |_|    |___/
+Made by R.D. 2022
+https://github.com/briocherockets
+https://www.reddit.com/user/BriocheRockets
+
+   _____ ______ _______ _    _ _____  
+  / ____|  ____|__   __| |  | |  __ \ 
+ | (___ | |__     | |  | |  | | |__) |
+  \___ \|  __|    | |  | |  | |  ___/ 
+  ____) | |____   | |  | |__| | |     
+ |_____/|______|  |_|   \____/|_|     
+
 '''
+#LIBRARIES
 import tkinter as tk
 from tkinter import *
 import sys
+
+#WINDOW SETUP
 window=tk.Tk()
 window.title("Enigma")
 window.geometry("700x550")
 window.resizable(width=False, height=False)
-#window.configure(bg='#804000')
+
+#INPUT/OUTPUT BOXES
 outputbox = Text(window, height=6, width = 75, font=("Calibri",12))
 inputbox = Text(window, height=6, width = 75, font=("Calibri",12))
-#grey = tk.Canvas(window, bg="#454545", height=700, width=700)
-#grey.place(x = 40, y=40)
 outputbox.place(x= 50, y = 50)
-output = ""
-lettercount = 0
 inputbox.place(x=50, y=380)
+lettercount = 0
+
+#ROTOR ROTATION DISPLAYS
 rotor1box = Text(window, height=1, width = 2, font=("Calibri",20))
 rotor2box = Text(window, height=1, width = 2, font=("Calibri",20))
 rotor3box = Text(window, height=1, width = 2, font=("Calibri",20))
@@ -24,8 +45,45 @@ rotor1box.place(x=80, y=255)
 rotor2box.place(x=130, y=255)
 rotor3box.place(x=180, y=255)
 
+#ROTOR VARIABLES
+'TEMPORARY ROTOR VARIABLES (FOR STORAGE BEFORE CONVERSION INTO LIST'
+rotor11 = 'EKMFLGDQVZNTOWYHXUSPAIBRCJ' 
+rotor21 = 'AJDKSIRUXBLHWTMCQGZNPYFVOE'
+rotor31 = 'BDFHJLCPRTXVZNYEIWGAKMUSQO'
+ref1 =    'YRUHQSLDPXNGOKMIEBFZCWVJAT'
+alpha =   'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+'ROTOR LISTS'
+rotor1 = []
+rotor2 = []
+rotor3 = []
+ref = []
+'EXTRA VALUES'
+rotor1turnover = 17
+rotor2turnover = 5
+rotor3turnover = 22 
+rotor1tick = 1
+rotor2tick = 1
+rotor3tick = 1
+rotors = [rotor1,rotor2,rotor3,ref]
+rotorticks = [rotor1tick,rotor2tick,rotor3tick]
 
-
+#SAVEWIRING SETUP
+'TEXTBOXES'
+rot1 = Text(window, height=1, width = 26, font=("Consolas",13))
+rot2 = Text(window, height=1, width = 26, font=("Consolas",13))
+rot3 = Text(window, height=1, width = 26, font=("Consolas",13))
+refl = Text(window, height=1, width = 26, font=("Consolas",13))
+rot1.place(x =380, y=210)
+rot2.place(x =380, y=240)
+rot3.place(x =380, y=270)
+refl.place(x =380, y=300)
+'LABELS'
+alph = Label(window, text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", font=("Consolas",13)).place(x = 379,y = 180)
+r1t = Label(window, text = "Rotor 1:", font=("Consolas",15)).place(x = 260,y = 210)
+r2t = Label(window, text = "Rotor 2:", font=("Consolas",15)).place(x = 260,y = 240)
+r3t = Label(window, text = "Rotor 3:", font=("Consolas",15)).place(x = 260,y = 270)
+reft = Label(window, text = "Reflector:", font=("Consolas",15)).place(x = 260,y = 300)
+'ACTUAL SAVE FUNCTION'
 def save():
     global rotor1
     global rotor2
@@ -46,39 +104,13 @@ def save():
         rotor3.append(rotor31[i])
         ref.append(ref1[i])
     rotors = [rotor1,rotor2,rotor3,ref]
-rot1 = Text(window, height=1, width = 26, font=("Consolas",13))
-rot2 = Text(window, height=1, width = 26, font=("Consolas",13))
-rot3 = Text(window, height=1, width = 26, font=("Consolas",13))
-refl = Text(window, height=1, width = 26, font=("Consolas",13))
-alph = Label(window, text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", font=("Consolas",13)).place(x = 379,y = 180)
-r1t = Label(window, text = "Rotor 1:", font=("Consolas",15)).place(x = 260,y = 210)
-r2t = Label(window, text = "Rotor 2:", font=("Consolas",15)).place(x = 260,y = 240)
-r3t = Label(window, text = "Rotor 3:", font=("Consolas",15)).place(x = 260,y = 270)
-reft = Label(window, text = "Reflector:", font=("Consolas",15)).place(x = 260,y = 300)
 savewiring = tk.Button(window, text="Save Wiring", font = ("Calibri",13),command = save, activebackground = "Grey", activeforeground = "Grey")
 savewiring.place(x=440, y=328)
-rot1.place(x =380, y=210)
-rot2.place(x =380, y=240)
-rot3.place(x =380, y=270)
-refl.place(x =380, y=300)
 
-rotor11 = 'EKMFLGDQVZNTOWYHXUSPAIBRCJ'
-rotor21 = 'AJDKSIRUXBLHWTMCQGZNPYFVOE'
-rotor31 = 'BDFHJLCPRTXVZNYEIWGAKMUSQO'
-ref1 =    'YRUHQSLDPXNGOKMIEBFZCWVJAT'
-alpha =   'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-rotor1 = []
-rotor2 = []
-rotor3 = []
 
-rotor1turnover = 17
-rotor2turnover = 5
-rotor3turnover = 22 
-ref = []
 
-rotor1tick = 1
-rotor2tick = 1
-rotor3tick = 1
+#FINAL SETUPS
+'TAKE STRINGS AND CONVERT TO LISTS'
 for i in rotor11:
     rotor1.append(i)
 for i in rotor21:
@@ -87,17 +119,26 @@ for i in rotor31:
     rotor3.append(i)
 for i in ref1:
     ref.append(i)
-rotors = [rotor1,rotor2,rotor3,ref]
-rotorticks = [rotor1tick,rotor2tick,rotor3tick]
-enigma = True
-
+'INSERT VALUES TO BOXES'
 rot1.insert("1.0", "".join(map(str, rotor1)))
 rot2.insert("1.0", "".join(map(str, rotor2)))
 rot3.insert("1.0", "".join(map(str, rotor3)))
 refl.insert("1.0", "".join(map(str, ref)))
+'EEEEEEEEE'
 strip = ""
+'^dont remove or else it breaks everything lol'
+enigma = True #enigma balls lol
 
-
+#FUNCTIONS
+def change(rotor,reversebool):
+    global active
+    if reversebool == True:
+        active = ((rotors[rotor-1])[active])
+        active = alpha.find(active)
+    else:
+        active = alpha[active]
+        active = (rotors[rotor-1]).index(active)
+    
 def encrypt():
     global active
     change(3, False)
@@ -108,15 +149,7 @@ def encrypt():
     change(2, True)
     change(3, True)
     
-def change(rotor,reversebool):
-    global active
-    if reversebool == True:
-        active = ((rotors[rotor-1])[active])
-        active = alpha.find(active)
-    else:
-        active = alpha[active]
-        active = (rotors[rotor-1]).index(active)
-    
+
 def rotincrement(rotor,reversebool):
     global rotor1tick
     global rotor2tick
@@ -158,9 +191,9 @@ def rotate(count,reversebool):
     elif reversebool == True:
         for i in range (1, count+1):
             rotincrement(3, True)
-            if rotorticks[2] == rotor3turnover:
+            if rotorticks[2] == rotor3turnover-1:
                 rotincrement(2, True)
-                if rotorticks[1] == rotor2turnover:
+                if rotorticks[1] == rotor2turnover-1:
                     rotincrement(1, True)
 
 #DEFINE BUTTONS FOR ROTOR SETTING
