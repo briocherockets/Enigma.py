@@ -4,7 +4,7 @@
 
                ________________________________________________________
               |    ________________________________________________    |
-              |   |YRXXBSFTKPGWDUWCLRXBVHJJQ                       |   /|_______
+              |   |                                                |   /|_______
               |   |                                                |  /   Output|
               |   |                                                |  \  _______|
               |   |                                                |   \|
@@ -18,7 +18,7 @@
    Rotor Down ---|_-_||_-_||_-_|  REFLEC.: YRUHQSLDPXNGOKMIEBFZCWVJAT  |
               |                                   Save Wiring ----------- Save wiring configuration
               |    ________________________________________________    |
-              |   |Mamma mia here I go again                       |   |
+              |   |                                                |   |
               |   |                                                |   /|_______
               |   |                                                |  /   Input |
               |   |                                                |  \  _______|
@@ -33,7 +33,7 @@
 
                  Example:
 		 2 5 3
-		 YRXXBSFTKPGWDUWCLRXBVHJJQ 
+		 WFSHYICWERNGDHYVBCDQOFPGJ 
 
 		 To decrypt a message, use the rotor up/down buttons to set the rotors to the configuration sent. Set wiring then save if needed.
 		 Paste the encrypted message into the input box, and the decrypted message should be returned in the output box.

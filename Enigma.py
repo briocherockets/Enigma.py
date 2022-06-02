@@ -19,6 +19,13 @@ https://www.reddit.com/user/BriocheRockets
  |_____/|______|  |_|   \____/|_|     
 
 '''
+
+'ROTOR VARIABLE GLOSSARY'
+'rotorX1'#1,1,1 wiring, pre-slicing into lists and functions
+'rotorX'#R1, R2, and R3 are procedural shuffled alphabets from sending the alphabet through the wiring functions
+'rotorXf'#Wiring, stored as a function that 1-26 is sent through to be reassigned
+'rotorXtick'#1-26 tick variable
+
 #LIBRARIES
 import tkinter as tk
 from tkinter import *
@@ -56,7 +63,11 @@ alpha =   'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 rotor1 = []
 rotor2 = []
 rotor3 = []
+rotor1f = []
+rotor2f = []
+rotor3f = []
 ref = []
+numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]
 'EXTRA VALUES'
 rotor1turnover = 17
 rotor2turnover = 5
@@ -64,9 +75,8 @@ rotor3turnover = 22
 rotor1tick = 1
 rotor2tick = 1
 rotor3tick = 1
-rotors = [rotor1,rotor2,rotor3,ref]
+rotors = [rotor1,rotor2,rotor3,ref,rotor1f, rotor2f,rotor3f]
 rotorticks = [rotor1tick,rotor2tick,rotor3tick]
-
 #SAVEWIRING SETUP
 'TEXTBOXES'
 rot1 = Text(window, height=1, width = 26, font=("Consolas",13))
@@ -98,12 +108,25 @@ def save():
     rotor2 = []
     rotor3 = []
     ref = []
+    rotor1f = []
+    rotor2f = []
+    rotor3f = []
     for i in range(0, 26):
-        rotor1.append(rotor11[i])
-        rotor2.append(rotor21[i])
-        rotor3.append(rotor31[i])
-        ref.append(ref1[i])
-    rotors = [rotor1,rotor2,rotor3,ref]
+        rotor3.append(alpha.find(rotor31[i])+1)
+        rotor2.append(alpha.find(rotor21[i])+1)
+        rotor1.append(alpha.find(rotor11[i])+1)
+        ref.append(alpha.find(ref1[i])+1)
+        rotor3f.append(alpha.find(rotor31[i])-i)
+        rotor2f.append(alpha.find(rotor21[i])-i)
+        rotor1f.append(alpha.find(rotor11[i])-i)
+#        print
+#    for i in range(0, 26):
+#        rotor1.append(rotor11[i])
+#        rotor2.append(rotor21[i])
+#        rotor3.append(rotor31[i])
+#        ref.append(ref1[i])
+    
+    rotors = [rotor1,rotor2,rotor3,ref,rotor1f, rotor2f,rotor3f]
 savewiring = tk.Button(window, text="Save Wiring", font = ("Calibri",13),command = save, activebackground = "Grey", activeforeground = "Grey")
 savewiring.place(x=440, y=328)
 
@@ -111,14 +134,14 @@ savewiring.place(x=440, y=328)
 
 #FINAL SETUPS
 'TAKE STRINGS AND CONVERT TO LISTS'
-for i in rotor11:
-    rotor1.append(i)
-for i in rotor21:
-    rotor2.append(i)
-for i in rotor31:
-    rotor3.append(i)
-for i in ref1:
-    ref.append(i)
+for i in range(0, 26):
+    rotor3.append(alpha.find(rotor31[i])+1)
+    rotor2.append(alpha.find(rotor21[i])+1)
+    rotor1.append(alpha.find(rotor11[i])+1)
+    ref.append(alpha.find(ref1[i])+1)
+    rotor3f.append(alpha.find(rotor31[i])-i)
+    rotor2f.append(alpha.find(rotor21[i])-i)
+    rotor1f.append(alpha.find(rotor11[i])-i)
 'INSERT VALUES TO BOXES'
 rot1.insert("1.0", "".join(map(str, rotor1)))
 rot2.insert("1.0", "".join(map(str, rotor2)))
@@ -132,45 +155,59 @@ enigma = True #enigma balls lol
 #FUNCTIONS
 def change(rotor,reversebool):
     global active
-    if reversebool == True:
-        active = ((rotors[rotor-1])[active])
-        active = alpha.find(active)
-    else:
-        active = alpha[active]
-        active = (rotors[rotor-1]).index(active)
-    
-def encrypt():
+    if rotor == 4:
+        active = ref[active-1]
+    elif reversebool == True:
+        active = (active+(rotors[rotor+3])[active-1])
+        if active > 26:
+            active -= 26
+        if active < 1:
+            active += 26
+    elif reversebool == False:
+        active = (active-(rotors[rotor+3])[(rotors[rotor-1]).index(active)])   
+        if active > 26:
+            active -= 26
+        if active < 1:
+            active += 26
+
+def encrypt():    
     global active
-    change(3, False)
-    change(2, False)
-    change(1, False)
-    change(4, False)
-    change(1, True)
-    change(2, True)
     change(3, True)
-    
+    change(2, True)
+    change(1, True)
+    change(4, True)
+    change(1, False)
+    change(2, False)
+    change(3, False)
 
 def rotincrement(rotor,reversebool):
     global rotor1tick
     global rotor2tick
     global rotor3tick
+    global rotors
     if reversebool == False:
-        temprot = (rotors[rotor-1])[0]
-        rotors[rotor-1].remove((rotors[rotor-1])[0])
-        (rotors[rotor-1]).insert(25,temprot)
+        temprot = (rotors[rotor+3])[0]
+        del((rotors[rotor+3])[0])
+        (rotors[rotor+3]).insert(25,temprot)
         if rotorticks[rotor-1] < 26:
             rotorticks[rotor-1] += 1
         else:
             rotorticks[rotor-1] = 1
         
     else:
-        temprot = (rotors[rotor-1])[25]
-        (rotors[rotor-1]).remove((rotors[rotor-1])[25])
-        (rotors[rotor-1]).insert(0,temprot)
+        temprot = (rotors[rotor+3])[25]
+        del((rotors[rotor+3])[25])
+        (rotors[rotor+3]).insert(0,temprot)
         if rotorticks[rotor-1] > 1:
             rotorticks[rotor-1] -= 1
         else:
-            rotorticks[rotor-1] = 26        
+            rotorticks[rotor-1] = 26
+    for i in range (0,26):
+        (rotors[rotor-1])[i] = (rotors[rotor+3])[i]+i+1
+        if (rotors[rotor-1])[i] > 26:
+            (rotors[rotor-1])[i] -= 26
+        elif (rotors[rotor-1])[i] < 1:
+            (rotors[rotor-1])[i] += 26
     
 def rotate(count,reversebool):
     global rotor1
@@ -186,7 +223,7 @@ def rotate(count,reversebool):
             rotincrement(2, False)     
             if rotorticks[1] == rotor2turnover:
                 rotincrement(1, False)
-                
+    
     #ROLL BACKWARD
     elif reversebool == True:
         for i in range (1, count+1):
@@ -195,7 +232,8 @@ def rotate(count,reversebool):
                 rotincrement(2, True)
                 if rotorticks[1] == rotor2turnover-1:
                     rotincrement(1, True)
-
+    
+    
 #DEFINE BUTTONS FOR ROTOR SETTING
 
 r1plus = tk.Button(window, text ="➕", font = ("Calibri",12),command = lambda:rotincrement(1,False), activebackground = "Grey", activeforeground = "Grey").place(x=80, y=200)
@@ -214,7 +252,6 @@ r3min = tk.Button(window, text ="➖", font = ("Calibri",12),command = lambda:ro
  |_|  |_/_/    \_\_____|_| \_|   |______\____/ \____/|_|    (_)
                                                                                                                          
 '''
-
 
 
 
@@ -237,16 +274,17 @@ while enigma:
         if lettercount < len(uinput)and len(uinput) > 1:
             if len(uinput)-lettercount > 1:
                 for i in range (1, len(uinput)-lettercount+1):
-                    active = alpha.find(uinput[i-1].upper())
-                    encrypt()
+                    active = alpha.find(uinput[i-1].upper())+1
                     rotate(1,False)
-                    outputbox.insert(END,alpha[active])
+                    encrypt()
+                    
+                    outputbox.insert(END,alpha[active-1])
                 
             else:
-                active = alpha.find(uinput[len(uinput)-2].upper())
-                encrypt()
+                active = alpha.find(uinput[len(uinput)-2].upper())+1
                 rotate(1,False)
-                outputbox.insert(END,alpha[active])
+                encrypt()
+                outputbox.insert(END,alpha[active-1])
                 
         elif  lettercount > len(uinput):
             if lettercount-len(uinput) < 2:
@@ -265,13 +303,13 @@ while enigma:
                 
         #UPDATE ROTOR WIRING BOXES  
         rot1.delete("1.0",END)
-        rot1.insert("1.0", "".join(map(str, rotor1)))
+        rot1.insert("1.0", "".join(map(str, rotor11)))
         rot2.delete("1.0",END)
-        rot2.insert("1.0", "".join(map(str, rotor2)))
+        rot2.insert("1.0", "".join(map(str, rotor21)))
         rot3.delete("1.0",END)
-        rot3.insert("1.0", "".join(map(str, rotor3)))
+        rot3.insert("1.0", "".join(map(str, rotor31)))
         refl.delete("1.0",END)
-        refl.insert("1.0", "".join(map(str, ref)))
+        refl.insert("1.0", "".join(map(str, ref1)))
         
 #REDEFINE LETTERCOUNT
         
