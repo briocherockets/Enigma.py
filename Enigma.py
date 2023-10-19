@@ -142,12 +142,15 @@ def change(rotor,reversebool):
     if rotor == 4:
         active = reflector[active-1]
     elif reversebool == True:
+#        print(active+(rotors[rotor+3])[active-1])
         active = (active+(rotors[rotor+3])[active-1])
         if active > 26:
             active -= 26
         if active < 1:
             active += 26
     elif reversebool == False:
+#        print(active-(rotors[rotor+3])[(rotors[rotor-1]).index(active)])
+#        print(rotors[rotor-1])
         active = (active-(rotors[rotor+3])[(rotors[rotor-1]).index(active)])   
         if active > 26:
             active -= 26
@@ -181,12 +184,15 @@ def rotincrement(rotor,reversebool):
             rotorticks[rotor-1] -= 1
         else:
             rotorticks[rotor-1] = 26
+    print(rotors[rotor-1])
     for i in range (0,26):
+        
         (rotors[rotor-1])[i] = (rotors[rotor+3])[i]+i+1
         if (rotors[rotor-1])[i] > 26:
             (rotors[rotor-1])[i] -= 26
         elif (rotors[rotor-1])[i] < 1:
             (rotors[rotor-1])[i] += 26
+    print(rotors[rotor-1])
     rotor3box.delete("1.0",END)
     rotor3box.insert("1.0",rotorticks[2])
     rotor2box.delete("1.0",END)
